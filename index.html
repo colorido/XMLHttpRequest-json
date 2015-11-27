@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<script type="text/javascript">
+window.onload = function() {
+
+var jsonData = null;
+
+function loadJson(path) {
+
+	var httpRequest = new XMLHttpRequest();
+	httpRequest.open('GET', path, true);
+
+	httpRequest.onreadystatechange = function (e){
+		var httpRequest = e.target;
+		if(httpRequest.readyState == 4) {
+			if(httpRequest.status == 200 || httpRequest.status == 201) {
+				jsonData = JSON.parse(httpRequest.responseText);
+				console.log(jsonData);
+			} else {
+				console.error("通信エラー");
+			}
+		}
+	};
+	httpRequest.send(null);
+}
+
+loadJson("file.json");
+
+var c = setInterval(function(){
+	if(jsonData != null) clearInterval(c);
+	console.log(jsonData);
+},100);
+
+}
+</script>
+</body>
+</html>
